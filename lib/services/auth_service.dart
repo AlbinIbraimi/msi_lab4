@@ -1,17 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:lab_4/main.dart';
+import 'package:flutter/material.dart';
 import 'package:lab_4/models/user.dart';
-import 'package:lab_4/providers/app_provider.dart';
-import 'package:provider/provider.dart';
 
-class AuthService {
+class AuthServiceProvider extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final provider = Provider.of<ApplicationProvider>(
-    navigatorKey.currentContext!,
-    listen: false,
-  );
 
-  MyUser userFromFirebase(User? user) {
+  MyUser? _user;
+  get user => _user;
+
+  MyUser _userFromFirebase(User? user) {
     return MyUser(user?.uid ?? "", user?.email ?? "");
   }
 
@@ -19,9 +16,9 @@ class AuthService {
     try {
       var result = await _auth.signInAnonymously();
       if (result.user != null) {
-        var myUser = userFromFirebase(result.user);
-        provider.user = myUser;
-        return myUser;
+        _user = _userFromFirebase(result.user);
+        notifyListeners();
+        return user;
       } else {
         return null;
       }
@@ -30,8 +27,9 @@ class AuthService {
     }
   }
 
-  Future signout() async {
+  Future<void> signout() async {
     await _auth.signOut();
-    provider.user = MyUser("", "");
+    _user = null;
+    notifyListeners();
   }
 }

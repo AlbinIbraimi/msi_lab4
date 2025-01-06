@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:lab_4/firebase_options.dart';
 import 'package:lab_4/providers/app_provider.dart';
 import 'package:lab_4/screens/wrapper.dart';
+import 'package:lab_4/services/auth_service.dart';
 import 'package:provider/provider.dart';
-
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +14,9 @@ void main() async {
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider<ApplicationProvider>(
-        create: (_) => ApplicationProvider())
+        create: (_) => ApplicationProvider()),
+    ChangeNotifierProvider<AuthServiceProvider>(
+        create: (_) => AuthServiceProvider())
   ], child: const MainApp()));
 }
 
@@ -24,9 +25,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: navigatorKey,
-      home: const Wrapper(),
+    return const MaterialApp(
+      home: Wrapper(),
     );
   }
 }
