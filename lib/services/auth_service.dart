@@ -29,4 +29,9 @@ class AuthService {
       return null;
     }
   }
+
+  Future signout() async {
+    await _auth.signOut();
+    provider.user = MyUser("", "");
+  }
 }

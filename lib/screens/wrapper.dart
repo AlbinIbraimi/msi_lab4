@@ -14,7 +14,7 @@ class Wrapper extends StatelessWidget {
 
     return Scaffold(
       appBar: const MyAppBar(),
-      body: user.id == "" ? const Authenticate() : const Home(),
+      body: user.id == "" ? const Authenticate() : Home(),
     );
   }
 }
