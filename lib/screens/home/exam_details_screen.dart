@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:lab_4/models/exam.dart';
 import 'package:lab_4/screens/home/direction_screen.dart';
