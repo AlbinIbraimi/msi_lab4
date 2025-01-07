@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lab_4/models/event.dart';
+import 'package:lab_4/models/exam.dart';
 import 'package:lab_4/services/storage_service.dart';
 import 'package:lab_4/widgets/location_picker.dart';
 import 'package:latlong2/latlong.dart';

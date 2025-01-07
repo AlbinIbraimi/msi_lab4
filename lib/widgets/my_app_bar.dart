@@ -22,6 +22,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               authProvider.toggleSignIn();
             },
           ),
+        if (authProvider.user != null)
+          IconButton(
+              onPressed: () => {Navigator.pushNamed(context, '/calendar')},
+              icon: const Icon(Icons.event)),
       ],
     );
   }

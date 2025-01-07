@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lab_4/firebase_options.dart';
 import 'package:lab_4/providers/app_provider.dart';
+import 'package:lab_4/screens/home/calendar_screen.dart';
 import 'package:lab_4/screens/wrapper.dart';
 import 'package:lab_4/services/auth_service.dart';
 import 'package:lab_4/services/storage_service.dart';
@@ -32,6 +33,7 @@ class MainApp extends StatelessWidget {
       initialRoute: "/",
       routes: {
         '/': (context) => const Wrapper(),
+        '/calendar': (context) => const Calendar()
       },
     );
   }

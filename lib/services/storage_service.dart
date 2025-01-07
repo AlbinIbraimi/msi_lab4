@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lab_4/models/event.dart';
+import 'package:lab_4/models/exam.dart';
 
 class StorageServiceProvider extends ChangeNotifier {
   final List<Exam> _exams = [];
