@@ -8,6 +8,14 @@ class AuthServiceProvider extends ChangeNotifier {
   MyUser? _user;
   get user => _user;
 
+  bool _showSignIn = true;
+  bool get showSignIn => _showSignIn;
+
+  void toggleSignIn() {
+    _showSignIn = !_showSignIn;
+    notifyListeners();
+  }
+
   MyUser _userFromFirebase(User? user) {
     return MyUser(user?.uid ?? "", user?.email ?? "");
   }
@@ -31,5 +39,21 @@ class AuthServiceProvider extends ChangeNotifier {
     await _auth.signOut();
     _user = null;
     notifyListeners();
+  }
+
+  Future<MyUser?> signInWithEmailPassword(String email, String password) async {
+    try {
+      var result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      if (result.user != null) {
+        _user = _userFromFirebase(result.user);
+        notifyListeners();
+        return _user;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
   }
 }
