@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:lab_4/models/exam.dart';
+import 'package:lab_4/screens/home/direction_screen.dart';
+import 'package:lab_4/services/location_service.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:geolocator/geolocator.dart'; // To get user's current location
 
 class DetailsExam extends StatelessWidget {
   const DetailsExam({super.key});
@@ -61,11 +64,20 @@ class DetailsExam extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () async {
-                Position position = await Geolocator.getCurrentPosition();
-
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                       content: Text('Calculating shortest route...')),
+                );
+                final position = await LocationHandler.getCurrentPosition();
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DirectionsScreen(
+                      destination: event.location!,
+                      current: LatLng(position!.latitude, position.longitude),
+                    ),
+                  ),
                 );
               },
               child: const Text('Navigate'),
