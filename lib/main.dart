@@ -4,6 +4,7 @@ import 'package:lab_4/firebase_options.dart';
 import 'package:lab_4/providers/app_provider.dart';
 import 'package:lab_4/screens/wrapper.dart';
 import 'package:lab_4/services/auth_service.dart';
+import 'package:lab_4/services/storage_service.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -16,7 +17,9 @@ void main() async {
     ChangeNotifierProvider<ApplicationProvider>(
         create: (_) => ApplicationProvider()),
     ChangeNotifierProvider<AuthServiceProvider>(
-        create: (_) => AuthServiceProvider())
+        create: (_) => AuthServiceProvider()),
+    ChangeNotifierProvider<StorageServiceProvider>(
+        create: (_) => StorageServiceProvider())
   ], child: const MainApp()));
 }
 
@@ -25,8 +28,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Wrapper(),
+    return MaterialApp(
+      initialRoute: "/",
+      routes: {
+        '/': (context) => const Wrapper(),
+      },
     );
   }
 }
