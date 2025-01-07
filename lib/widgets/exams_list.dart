@@ -25,7 +25,7 @@ class _ExamsListState extends State<ExamsList> {
             elevation: 5,
             child: ListTile(
               contentPadding: const EdgeInsets.all(16),
-              title: Text(event.title,
+              title: Text(event!.title,
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold)),
               subtitle: Column(

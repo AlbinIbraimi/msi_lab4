@@ -1,7 +1,9 @@
+import 'package:latlong2/latlong.dart';
+
 class Exam {
   final String title;
   final DateTime dateTime;
-  final String location;
+  final LatLng? location;
 
   Exam({
     required this.title,

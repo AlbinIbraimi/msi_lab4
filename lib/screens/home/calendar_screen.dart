@@ -25,7 +25,7 @@ class _CalendarState extends State<Calendar> {
     final storage = Provider.of<StorageServiceProvider>(context);
     final eventDates = storage.exams
         .map((item) => MarkedDate(
-              date: normalizedDate(item.dateTime),
+              date: normalizedDate(item!.dateTime),
               color: Colors.red,
             ))
         .toList();
@@ -43,7 +43,15 @@ class _CalendarState extends State<Calendar> {
                 onDayPressed: (DateTime date, List events) {
                   setState(() {
                     _selectedDate = date;
-                    Navigator.pushNamed(context, '/detailes');
+
+                    try {
+                      var event = storage.exams.firstWhere((e) =>
+                          normalizedDate(e.dateTime).compareTo(date) == 0);
+                      Navigator.pushNamed(context, '/details',
+                          arguments: event);
+                    } catch (e) {
+                      // No element found
+                    }
                   });
                 },
                 thisMonthDayBorderColor: Colors.transparent,

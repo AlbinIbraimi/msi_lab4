@@ -116,7 +116,7 @@ class _CreateExamDialogState extends State<CreateExamDialog> {
       actions: [
         TextButton(
           onPressed: () {
-            Navigator.pop(context); // Close dialog without saving
+            Navigator.pop(context); // Close the dialog
           },
           child: const Text('Cancel'),
         ),
@@ -132,13 +132,11 @@ class _CreateExamDialogState extends State<CreateExamDialog> {
                   selectedTime.hour,
                   selectedTime.minute,
                 ),
-                location:
-                    '${selectedLocation!.latitude}, ${selectedLocation!.longitude}', // Format the location
+                location: selectedLocation,
               );
               storage.createExam(newExam);
-              Navigator.pop(context); // Close the dialog after saving
+              Navigator.pop(context); // Close the dialog
             } else {
-              // Show error if fields are empty
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Please fill in all fields!')),
               );
