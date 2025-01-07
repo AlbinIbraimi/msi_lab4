@@ -25,7 +25,7 @@ class _ExamsListState extends State<ExamsList> {
             elevation: 5,
             child: ListTile(
               contentPadding: const EdgeInsets.all(16),
-              title: Text(event!.title,
+              title: Text(event.title,
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold)),
               subtitle: Column(
@@ -37,7 +37,7 @@ class _ExamsListState extends State<ExamsList> {
               ),
               trailing: const Icon(Icons.event, color: Colors.blue),
               onTap: () {
-                // Navigate to event details screen if needed
+                Navigator.pushNamed(context, '/details', arguments: event);
               },
             ),
           );

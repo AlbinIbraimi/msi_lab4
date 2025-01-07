@@ -25,7 +25,7 @@ class _CalendarState extends State<Calendar> {
     final storage = Provider.of<StorageServiceProvider>(context);
     final eventDates = storage.exams
         .map((item) => MarkedDate(
-              date: normalizedDate(item!.dateTime),
+              date: normalizedDate(item.dateTime),
               color: Colors.red,
             ))
         .toList();
