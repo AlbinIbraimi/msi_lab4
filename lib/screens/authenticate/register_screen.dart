@@ -51,7 +51,31 @@ class _RegisterState extends State<Register> {
                     final password = _passwordController.text.trim();
                     final confirmPas = _confirmPasswordController.text.trim();
 
-                    // Implement register logic;
+                    if (email.isNotEmpty &&
+                        password.isNotEmpty &&
+                        confirmPas.isNotEmpty) {
+                      if (password != confirmPas) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content:
+                                  Text('Confirm password does not match.')),
+                        );
+                      } else {
+                        final user =
+                            await authService.registerWithEmailAndPassword(
+                                email, password, confirmPas);
+                        if (user == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Registraion failed')),
+                          );
+                        }
+                      }
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text('Please fill in all fields.')),
+                      );
+                    }
                   },
                   child: const Text('Register'),
                 ),

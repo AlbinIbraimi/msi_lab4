@@ -56,4 +56,25 @@ class AuthServiceProvider extends ChangeNotifier {
       return null;
     }
   }
+
+  Future<MyUser?> registerWithEmailAndPassword(
+      String email, String pass, String confPass) async {
+    if (pass != confPass) {
+      return null;
+    }
+
+    try {
+      var result = await _auth.createUserWithEmailAndPassword(
+          email: email, password: pass);
+      if (result.user != null) {
+        _user = _userFromFirebase(result.user);
+        notifyListeners();
+        return _user;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
 }
