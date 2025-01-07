@@ -3,7 +3,8 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
 class LocationPicker extends StatefulWidget {
-  const LocationPicker({super.key});
+  final LatLng? initialLocation; // New parameter to pass initial location
+  const LocationPicker({super.key, this.initialLocation});
 
   @override
   State<LocationPicker> createState() => _LocationPickerState();
@@ -11,6 +12,12 @@ class LocationPicker extends StatefulWidget {
 
 class _LocationPickerState extends State<LocationPicker> {
   LatLng? selectedLocation;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedLocation = widget.initialLocation;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +35,10 @@ class _LocationPickerState extends State<LocationPicker> {
       ),
       body: FlutterMap(
           options: MapOptions(
-            initialCenter: const LatLng(41.99646, 21.43141),
+            initialCenter: selectedLocation != null
+                ? LatLng(
+                    selectedLocation!.latitude, selectedLocation!.longitude)
+                : const LatLng(41.99646, 21.43141),
             initialZoom: 15.0,
             onTap: (tapPosition, point) {
               setState(() {

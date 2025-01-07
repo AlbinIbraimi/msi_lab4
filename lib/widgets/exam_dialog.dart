@@ -15,7 +15,7 @@ class CreateExamDialog extends StatefulWidget {
 
 class _CreateExamDialogState extends State<CreateExamDialog> {
   final TextEditingController titleController = TextEditingController();
-  final TextEditingController locationController = TextEditingController();
+  LatLng? selectedLocation;
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
 
@@ -35,51 +35,39 @@ class _CreateExamDialogState extends State<CreateExamDialog> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(locationController.text.isNotEmpty
-                    ? 'Location: ${locationController.text}'
-                    : 'Location: Not selected'),
+                selectedLocation != null
+                    ? const Row(
+                        children: [
+                          Text('Location'),
+                          SizedBox(width: 8),
+                          Icon(Icons.check, color: Colors.green),
+                        ],
+                      )
+                    : const Text('Location'),
                 TextButton(
                   onPressed: () async {
                     final LatLng? pickedLocation = await Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const LocationPicker()),
+                        builder: (context) =>
+                            LocationPicker(initialLocation: selectedLocation),
+                      ),
                     );
 
                     if (pickedLocation != null) {
-                      // Format the location as latitude and longitude
                       setState(() {
-                        locationController.text =
-                            '${pickedLocation.latitude}, ${pickedLocation.longitude}';
+                        selectedLocation = pickedLocation;
                       });
                     }
                   },
-                  child: const Text('Pick Location'),
-                ),
-                Text(locationController.text.isNotEmpty
-                    ? 'Location: ${locationController.text}'
-                    : 'Location: Not selected'),
-                TextButton(
-                  onPressed: () async {
-                    final LatLng? pickedLocation = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LocationPicker()),
-                    );
-
-                    if (pickedLocation != null) {
-                      // Format the location as latitude and longitude
-                      setState(() {
-                        locationController.text =
-                            '${pickedLocation.latitude}, ${pickedLocation.longitude}';
-                      });
-                    }
-                  },
-                  child: const Text('Pick Location'),
+                  child: Text(
+                    selectedLocation != null
+                        ? 'Change Location'
+                        : 'Pick Location',
+                  ),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -134,8 +122,7 @@ class _CreateExamDialogState extends State<CreateExamDialog> {
         ),
         ElevatedButton(
           onPressed: () {
-            if (titleController.text.isNotEmpty &&
-                locationController.text.isNotEmpty) {
+            if (titleController.text.isNotEmpty && selectedLocation != null) {
               final newExam = Exam(
                 title: titleController.text,
                 dateTime: DateTime(
@@ -145,7 +132,8 @@ class _CreateExamDialogState extends State<CreateExamDialog> {
                   selectedTime.hour,
                   selectedTime.minute,
                 ),
-                location: locationController.text,
+                location:
+                    '${selectedLocation!.latitude}, ${selectedLocation!.longitude}', // Format the location
               );
               storage.createExam(newExam);
               Navigator.pop(context); // Close the dialog after saving
