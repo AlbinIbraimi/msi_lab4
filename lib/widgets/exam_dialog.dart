@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lab_4/models/event.dart';
 import 'package:lab_4/services/storage_service.dart';
+import 'package:lab_4/widgets/location_picker.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -30,9 +32,52 @@ class _CreateExamDialogState extends State<CreateExamDialog> {
               controller: titleController,
               decoration: const InputDecoration(labelText: 'Exam Title'),
             ),
-            TextField(
-              controller: locationController,
-              decoration: const InputDecoration(labelText: 'Exam Location'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(locationController.text.isNotEmpty
+                    ? 'Location: ${locationController.text}'
+                    : 'Location: Not selected'),
+                TextButton(
+                  onPressed: () async {
+                    final LatLng? pickedLocation = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LocationPicker()),
+                    );
+
+                    if (pickedLocation != null) {
+                      // Format the location as latitude and longitude
+                      setState(() {
+                        locationController.text =
+                            '${pickedLocation.latitude}, ${pickedLocation.longitude}';
+                      });
+                    }
+                  },
+                  child: const Text('Pick Location'),
+                ),
+                Text(locationController.text.isNotEmpty
+                    ? 'Location: ${locationController.text}'
+                    : 'Location: Not selected'),
+                TextButton(
+                  onPressed: () async {
+                    final LatLng? pickedLocation = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LocationPicker()),
+                    );
+
+                    if (pickedLocation != null) {
+                      // Format the location as latitude and longitude
+                      setState(() {
+                        locationController.text =
+                            '${pickedLocation.latitude}, ${pickedLocation.longitude}';
+                      });
+                    }
+                  },
+                  child: const Text('Pick Location'),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
             Row(
@@ -70,7 +115,6 @@ class _CreateExamDialogState extends State<CreateExamDialog> {
                     if (picked != null && picked != selectedTime) {
                       setState(() {
                         selectedTime = picked;
-                        ;
                       });
                     }
                   },
